@@ -29,10 +29,6 @@ function homogenous(theta, a, b) {
 }
 function setVector(x, y) {
   Vmatrix = [x, y, 1];
-//  console.log("x: "+ car_x +" y: "+ car_y);
-math.forEach(Vmatrix, function(value) {
-  console.log("v: "+value);
-});
 }
 
 Vehicle.prototype = {
@@ -63,21 +59,5 @@ Vehicle.prototype = {
   },
   setPos: function(x, y) {
     console.log("nothing");
-    // car_x = x;
-    // car_y = y;
   }
-  // frame: function(x, y) {
-  //   this.setPos(x, y);
-  //   if (this.getX() == 350)
-  //     return;
-  //   else {
-  //     this.drawBkg();
-  //     //this.initial();
-  //     this.movement();
-  //     this.drawCar();
-  //   }
-  // },
-  // setX: function(i) {
-  //     car_x = i;
-  // }
 }
