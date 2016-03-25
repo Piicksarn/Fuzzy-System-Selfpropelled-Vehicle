@@ -47,21 +47,11 @@ Vehicle.prototype = {
   },
   drawBkg: function() {
     this.clear();
-    // this.maze.showItems();
   },
   transform: function() {
     this.vecMatrix = setVector(car_x, car_y);
     this.homoMatrix = homogenous(0, 2, 2);
     this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);
-    // math.forEach(this.homoMatrix, function(value) {
-      console.log("h: "+this.homoMatrix);
-    // });
-    // math.forEach(this.resultMatrix, function(value) {
-      console.log("r: "+this.resultMatrix);
-    // });
-    // math.forEach(this.vecMatrix, function(value) {
-      console.log("v: "+this.vecMatrix);
-    // });
      car_x = this.resultMatrix[0];
      car_y = this.resultMatrix[1];
   },
@@ -72,8 +62,5 @@ Vehicle.prototype = {
     ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
     ctx.closePath();
     ctx.fill();
-  },
-  setPos: function(x, y) {
-    console.log("nothing");
   }
 }
