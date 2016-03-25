@@ -3,17 +3,20 @@ var Vehicle = function(canvas) {
   this.canvas = document.getElementById(canvas);
   this.ctx = this.canvas.getContext('2d');
   this.maze = new Object();
+  this.homoMatrix = math.zeros(3,3);
+  this.vecMatrix = math.zeros(3);
+  this.resultMatrix = math.zeros(3,3);
 };
-var car_x = 0;
-var car_y = 0;
+var car_x = 1;
+var car_y = 1;
 //a is for x and b is for y in translate, theta is degree for rotate.
-var Vmatrix = math.matrix();
-var worldPos = math.matrix();
-var Rmatrix = math.matrix();
-var Tmatrix = math.matrix();
-var Hmatrix = math.matrix();
-var ResultMatrix = math.matrix();
+
 function homogenous(theta, a, b) {
+  var Vmatrix = math.matrix();
+  var Rmatrix = math.matrix();
+  var Tmatrix = math.matrix();
+  var Hmatrix = math.matrix();
+  var ResultMatrix = math.matrix();
   Rmatrix = [
     [math.cos(theta), math.sin(theta) * -1, 0],
     [math.sin(theta), math.cos(theta), 0 ],
@@ -25,10 +28,13 @@ function homogenous(theta, a, b) {
     [0, 0, 1]
   ];
   Hmatrix = math.multiply(Rmatrix, Tmatrix);
-  ResultMatrix = math.multiply(Hmatrix, Vmatrix);
+  return Hmatrix;
 }
 function setVector(x, y) {
-  Vmatrix = [x, y, 1];
+  return vector = [x, y, 1];
+}
+function calResultMat(vactor, homo) {
+  return math.multiply(homo, vactor);
 }
 
 Vehicle.prototype = {
@@ -43,16 +49,26 @@ Vehicle.prototype = {
     this.clear();
     // this.maze.showItems();
   },
+  transform: function() {
+    this.vecMatrix = setVector(car_x, car_y);
+    this.homoMatrix = homogenous(0, 2, 2);
+    this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);
+    // math.forEach(this.homoMatrix, function(value) {
+      console.log("h: "+this.homoMatrix);
+    // });
+    // math.forEach(this.resultMatrix, function(value) {
+      console.log("r: "+this.resultMatrix);
+    // });
+    // math.forEach(this.vecMatrix, function(value) {
+      console.log("v: "+this.vecMatrix);
+    // });
+     car_x = this.resultMatrix[0];
+     car_y = this.resultMatrix[1];
+  },
   drawCar: function(ctx) {
-    //create other function ------------------------
-    setVector(car_x, car_y);
-    homogenous(0, 2, -2);
-    car_x = ResultMatrix[0];
-    car_y = ResultMatrix[1];
-    console.log("x: "+ car_x +" y: "+ car_y);
-    //-------------------------------------------------
+    this.transform();
     ctx.beginPath();
-    ctx.arc(car_x, car_y, RADIUS, 0, Math.PI*2, true);
+    ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
     ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
     ctx.closePath();
     ctx.fill();
