@@ -14,7 +14,16 @@ var CFrame = function() {
 }
 function refresh() {
   setTimeout(function() {
-    // Do painting here!
+    vehicle.clear();
+    ctx.save();
+    maze.drawItem();
+    ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
+    for (var i = 0; i < wallList.length; i++) {
+         wallList[i].drawItem(ctx);
+    }
+    vehicle.drawCar(ctx);
+    ctx.restore();
+    requestAnimationFrame(refresh);
   }, 100);
 }
 CFrame.prototype = {
