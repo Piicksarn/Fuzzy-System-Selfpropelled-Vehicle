@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Demo for Fuzzy System</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.1.0/math.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="js/Coordinate.js"></script>
+    <script type="text/javascript" src="js/Vehicle.js"></script>
+    <script type="text/javascript" src="js/Maze.js"></script>
+    <script type="text/javascript" src="js/Line.js"></script>
+    <script type="text/javascript" src="js/Wall.js"></script>
+    <script type="text/javascript" src="js/FootPrint.js"></script>
+    <script type="text/javascript" src="js/CanvasFrame.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/css/ion.rangeSlider.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/css/ion.rangeSlider.skinFlat.min.css">
+  </head>
+
+  <body>
+    <!-- Menu Part :
+        The Position part should change to use mouse listener.
+        Make the vehicle to start at the position where the mouse click.
+    -->
+    <div id="toggle"> </div>
+    <div class="menu closed">
+      <h1 style="margin-left: 20px">Setting</h1>
+      <ul>
+        <li>
+          Position
+          <input type="text" id="xPos" placeholder="X" class="settingText">
+          <input type="text" id="yPos" placeholder="Y" class="settingText">
+          Angle
+          <input type="text" id="range" value="" name="range" />
+          Rate
+          <input type="text" id="Rrange" value="" name="Rrange" />
+          <br/>
+          <input type="button" id="startBtn" value="Start" class="startBtn"/>
+      </ul>
+    </div>
+    <!-- Canvas Part-->
+    <div style="width: 100%; height:100%;">
+      <!-- Title bar-->
+      <div class="title">
+        <h1>Self-propelled vehicle • HW-1</h1>
+      </div>
+      <!-- Body part-->
+      <div style="width: 100%; height:100%; padding: 10px;">
+        <!--For canvas-->
+        <div class="container">
+          <canvas id="canvas" width="760" height="600"></canvas>
+        </div>
+        <!--For Data showing-->
+        <div class="showData">
+        </div>
+      </div>
+    <div>
+
+    <script>
+      var canvasF = new CFrame();
+      $(document).ready(function() {
+        var rate = 5;
+        var x = 0;
+        var y = 0;
+        var maze = new Maze();
+        maze.drawItem();
+      });
+
+      $(function () {
+       $("#range").ionRangeSlider({
+           hide_min_max: true,
+           keyboard: true,
+           min: -90,
+           max: 270,
+           from: 45,
+           grid: true
+       });
+     });
+     var track = function (data) {
+        console.log(data.from);
+     };
+     var Rtrack = function (data) {
+        rate = data.from;
+     };
+     $(function () {
+      $("#Rrange").ionRangeSlider({
+          hide_min_max: true,
+          keyboard: true,
+          min: 1,
+          max: 20,
+          from: 5,
+          grid: true,
+          onStart: Rtrack,
+          onChange: Rtrack,
+          onFinish: Rtrack,
+          onUpdate: Rtrack
+      });
+    });
+      $( "#toggle" ).click(function() {
+        $(".menu").toggleClass("closed");
+        $(this).toggleClass("closed");
+        $(".content").toggleClass("closed");
+        $("#wrapper").toggleClass("closed")
+      });
+      $("#startBtn").click(function() {
+
+        $(".menu").toggleClass("closed");
+        $("#toggle").toggleClass("closed");
+        $(".content").toggleClass("closed");
+        $("#wrapper").toggleClass("closed")
+      /*
+        Should call the function to start the vehicle active.
+      */
+      });
+    </script>
+  </body>
+</html>
