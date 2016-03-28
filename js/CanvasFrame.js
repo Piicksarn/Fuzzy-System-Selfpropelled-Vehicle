@@ -21,8 +21,12 @@ function refresh() {
     for (var i = 0; i < wallList.length; i++) {
          wallList[i].drawItem(ctx);
     }
+    for (var i = 0; i < footprintList.length; i++) {
+      footprintList[i].drawItem(ctx);
+    }
     vehicle.drawCar(ctx);
     ctx.restore();
+    footCount++;
     requestAnimationFrame(refresh);
   }, 100);
 }

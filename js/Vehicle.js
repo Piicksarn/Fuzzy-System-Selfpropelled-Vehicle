@@ -57,6 +57,14 @@ Vehicle.prototype = {
   },
   drawCar: function(ctx) {
     this.transform();
+
+    // Save the footprint in the list when draw the car
+    if(footCount % 10 == 0) {
+      var foot = new FootPrint(car_x, car_y);
+      footprintList.push(foot);
+    }
+
+    // Draw the car
     ctx.beginPath();
     ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
     ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
