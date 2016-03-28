@@ -3,36 +3,41 @@ var Vehicle = function(canvas) {
   this.canvas = document.getElementById(canvas);
   this.ctx = this.canvas.getContext('2d');
   this.maze = new Object();
+  this.homoMatrix = math.zeros(3,3);
+  this.vecMatrix = math.zeros(3);
+  this.resultMatrix = math.zeros(3,3);
 };
 var car_x = 0;
 var car_y = 0;
+var car_vector = [2, 2];
+
 //a is for x and b is for y in translate, theta is degree for rotate.
-var Vmatrix = math.matrix();
-var worldPos = math.matrix();
-var Rmatrix = math.matrix();
-var Tmatrix = math.matrix();
-var Hmatrix = math.matrix();
-var ResultMatrix = math.matrix();
 function homogenous(theta, a, b) {
+  var Vmatrix = math.matrix();
+  var Rmatrix = math.matrix();
+  var Tmatrix = math.matrix();
+  var Hmatrix = math.matrix();
+  var ResultMatrix = math.matrix();
   Rmatrix = [
-    [math.cos(theta), math.sin(theta) * -1, 0],
-    [math.sin(theta), math.cos(theta), 0 ],
+    [Math.cos(theta), Math.sin(theta) * -1, 0],
+    [Math.sin(theta), Math.cos(theta), 0 ],
     [0, 0, 1]
   ];
+  //console.log("Math.cos(theta): "+ Math.cos(45) + "---"+Math.cos(theta));
+
   Tmatrix = [
     [1, 0, a],
     [0, 1, b],
     [0, 0, 1]
   ];
   Hmatrix = math.multiply(Rmatrix, Tmatrix);
-  ResultMatrix = math.multiply(Hmatrix, Vmatrix);
+  return Hmatrix;
 }
 function setVector(x, y) {
-  Vmatrix = [x, y, 1];
-//  console.log("x: "+ car_x +" y: "+ car_y);
-math.forEach(Vmatrix, function(value) {
-  console.log("v: "+value);
-});
+  return vector = [x, y, 1];
+}
+function calResultMat(vactor, homo) {
+  return math.multiply(homo, vactor);
 }
 
 Vehicle.prototype = {
@@ -45,39 +50,29 @@ Vehicle.prototype = {
   },
   drawBkg: function() {
     this.clear();
-    // this.maze.showItems();
+  },
+  transform: function() {
+    console.log(car_x+"   "+ car_y);
+    this.vecMatrix = setVector(car_x, car_y);
+    this.homoMatrix = homogenous(0, 2, 2); //homogenous(angle, x, y)
+    this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);
+    car_x = this.resultMatrix[0];
+    car_y = this.resultMatrix[1];
   },
   drawCar: function(ctx) {
-    //create other function ------------------------
-    setVector(car_x, car_y);
-    homogenous(0, 2, -2);
-    car_x = ResultMatrix[0];
-    car_y = ResultMatrix[1];
-    console.log("x: "+ car_x +" y: "+ car_y);
-    //-------------------------------------------------
+    this.transform();
+
+    // Save the footprint in the list when draw the car
+    if(footCount % 10 == 0) {
+      var foot = new FootPrint(car_x, car_y);
+      footprintList.push(foot);
+    }
+
+    // Draw the car
     ctx.beginPath();
-    ctx.arc(car_x, car_y, RADIUS, 0, Math.PI*2, true);
     ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
+    ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();
-  },
-  setPos: function(x, y) {
-    console.log("nothing");
-    // car_x = x;
-    // car_y = y;
   }
-  // frame: function(x, y) {
-  //   this.setPos(x, y);
-  //   if (this.getX() == 350)
-  //     return;
-  //   else {
-  //     this.drawBkg();
-  //     //this.initial();
-  //     this.movement();
-  //     this.drawCar();
-  //   }
-  // },
-  // setX: function(i) {
-  //     car_x = i;
-  // }
 }
