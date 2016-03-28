@@ -7,10 +7,11 @@ var Vehicle = function(canvas) {
   this.vecMatrix = math.zeros(3);
   this.resultMatrix = math.zeros(3,3);
 };
-var car_x = 1;
-var car_y = 1;
-//a is for x and b is for y in translate, theta is degree for rotate.
+var car_x = 0;
+var car_y = 0;
+var car_vector = [2, 2];
 
+//a is for x and b is for y in translate, theta is degree for rotate.
 function homogenous(theta, a, b) {
   var Vmatrix = math.matrix();
   var Rmatrix = math.matrix();
@@ -18,10 +19,12 @@ function homogenous(theta, a, b) {
   var Hmatrix = math.matrix();
   var ResultMatrix = math.matrix();
   Rmatrix = [
-    [math.cos(theta), math.sin(theta) * -1, 0],
-    [math.sin(theta), math.cos(theta), 0 ],
+    [Math.cos(theta), Math.sin(theta) * -1, 0],
+    [Math.sin(theta), Math.cos(theta), 0 ],
     [0, 0, 1]
   ];
+  //console.log("Math.cos(theta): "+ Math.cos(45) + "---"+Math.cos(theta));
+
   Tmatrix = [
     [1, 0, a],
     [0, 1, b],
@@ -49,11 +52,12 @@ Vehicle.prototype = {
     this.clear();
   },
   transform: function() {
+    console.log(car_x+"   "+ car_y);
     this.vecMatrix = setVector(car_x, car_y);
-    this.homoMatrix = homogenous(0, 2, 2);
+    this.homoMatrix = homogenous(0, 2, 2); //homogenous(angle, x, y)
     this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);
-     car_x = this.resultMatrix[0];
-     car_y = this.resultMatrix[1];
+    car_x = this.resultMatrix[0];
+    car_y = this.resultMatrix[1];
   },
   drawCar: function(ctx) {
     this.transform();
@@ -66,8 +70,8 @@ Vehicle.prototype = {
 
     // Draw the car
     ctx.beginPath();
-    ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
     ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
+    ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();
   }

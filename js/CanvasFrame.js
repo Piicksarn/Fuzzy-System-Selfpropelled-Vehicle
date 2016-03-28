@@ -1,6 +1,15 @@
 var vehicle;
 var maze = new Maze();
 var ctx;
+var lineList = new Array(3);
+var footCount = 0;
+function createLine() {
+  for (var i = 0; i < lineList.length; i++) {
+    lineList[i] = new Line(i);
+    lineList[i].tmp = [0,0];
+  }
+
+}
 var CFrame = function() {
   this.canvas = document.getElementById("canvas");
   this.ctx = this.canvas.getContext('2d');
@@ -14,6 +23,7 @@ var CFrame = function() {
 }
 function refresh() {
   setTimeout(function() {
+
     vehicle.clear();
     ctx.save();
     maze.drawItem();
@@ -25,6 +35,9 @@ function refresh() {
       footprintList[i].drawItem(ctx);
     }
     vehicle.drawCar(ctx);
+    for (var i = 0; i < lineList.length; i++) {
+       lineList[i].drawLine(i);
+     }
     ctx.restore();
     footCount++;
     requestAnimationFrame(refresh);
@@ -33,8 +46,3 @@ function refresh() {
 CFrame.prototype = {
 
 }// end of proto
-var lineList = new Array(3);
-function createLine() {
-  for (var i = 0; i < lineList.length; i++)
-    lineList[i] = new Line();
-}
