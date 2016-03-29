@@ -7,6 +7,8 @@ var Line = function(index) {
   this.homoMatrix = math.zeros(3,3);
   this.vecMatrix = math.zeros(3);
   this.resultMatrix = math.zeros(3,3);
+
+  // The items in the list are indicate as far, median, close
   this.rankList = new Array(3);
   for (var i in this.rankList) {
     this.rankList[i] = new Fuzzifier();
@@ -18,6 +20,9 @@ Line.prototype = {
       this.rankList[i].setDist(this.getDist());
       this.rankList[i].setRank(i);
     }
+  },
+  getRankList: function() {
+    return this.rankList;
   },
   getDist: function() {
     return this.distance;
