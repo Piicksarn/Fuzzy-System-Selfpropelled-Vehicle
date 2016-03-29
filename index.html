@@ -6,6 +6,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.1.0/math.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/js/ion.rangeSlider.min.js"></script>
+    <script type="text/javascript" src="js/DataShow.js"></script>
     <script type="text/javascript" src="js/Coordinate.js"></script>
     <script type="text/javascript" src="js/Vehicle.js"></script>
     <script type="text/javascript" src="js/Maze.js"></script>
@@ -14,6 +15,7 @@
     <script type="text/javascript" src="js/FootPrint.js"></script>
     <script type="text/javascript" src="js/CanvasFrame.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/css/ion.rangeSlider.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/css/ion.rangeSlider.skinFlat.min.css">
   </head>
@@ -53,11 +55,35 @@
         </div>
         <!--For Data showing-->
         <div class="showData" id="showData">
+          <div>
+            <h2 style="margin-left: 10px;">Initial Setting</h2>
+          </div>
+          <div class="dataPad">
+              <li><a><i class="fa fa-car"></i> Vehicle Position</li>
+              <div class="hidenData"><b id="Ipos"></b></div>
+              <li><a><i class="fa fa-undo"></i></i> Initial Angel</li>
+              <div class="hidenData" id="IAng"><b id="angle"></b></div>
+              <li><a><i class="fa fa-bullseye"></i> Initial Sensors</li>
+              <div class="hidenData" id="ISens"></div>
+
+          </div>
+          <div>
+            <h2 style="margin-left: 10px;">Result</h2>
+          </div>
+          <div class="dataPad">
+              <li><a><i class="fa fa-car"></i> Vehicle Position</li>
+              <div class="hidenData"><b id="Ipos"></b></div>
+              <li><a><i class="fa fa-undo"></i></i> Initial Angel</li>
+              <div class="hidenData" id="IAng"><b id="angle"></b></div>
+              <li><a><i class="fa fa-bullseye"></i> Initial Sensors</li>
+              <div class="hidenData" id="ISens"></div>
+
+          </div>
         </div>
       </div>
     <div>
-
     <script>
+
       var canvasF = new CFrame();
       $(document).ready(function() {
         var rate = 5;
@@ -67,23 +93,37 @@
         maze.drawItem();
       });
 
-      $(function () {
-       $("#range").ionRangeSlider({
-           hide_min_max: true,
-           keyboard: true,
-           min: -90,
-           max: 270,
-           from: 45,
-           grid: true
-       });
-     });
-     var track = function (data) {
-        console.log(data.from);
-     };
-     var Rtrack = function (data) {
-        rate = data.from;
+      // Setting the initial angle
+      var $range = $("#range"),
+      $result = $("#angle");
+      var angleset = 0;
+      var track = function (data) {
+        $result.html("Angle: " + data.from);
+        angleset = data.from;
+      };
+      $range.ionRangeSlider({
+        hide_min_max: true,
+        keyboard: true,
+        min: -90,
+        max: 270,
+        from: 45,
+        grid: true,
+        onStart: track,
+        onChange: track,
+        onFinish: track,
+        onUpdate: track
+      });
+
+     var doSetting = function() {
+       $('#Ipos').text("[x,y] = ["+$('#xPos').val()+" , "+ $('#yPos').val()+"] ");//= ;
+       canvasF.setSystem(angleset, $('#xPos').val(), $('#yPos').val());
      };
      $(function () {
+       var $Rrange = $("#Rrange");
+       rate = $("#rate");
+       var Rtrack = function (data) {
+         rate = data.from;
+       };
       $("#Rrange").ionRangeSlider({
           hide_min_max: true,
           keyboard: true,
@@ -96,6 +136,7 @@
           onFinish: Rtrack,
           onUpdate: Rtrack
       });
+
     });
       $( "#toggle" ).click(function() {
         $(".menu").toggleClass("closed");
@@ -107,7 +148,9 @@
         $(".menu").toggleClass("closed");
         $("#toggle").toggleClass("closed");
         $(".content").toggleClass("closed");
-        $("#wrapper").toggleClass("closed")
+        $("#wrapper").toggleClass("closed");
+        doSetting();
+        canvasF.setStart();
       });
     </script>
   </body>
