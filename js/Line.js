@@ -7,8 +7,18 @@ var Line = function(index) {
   this.homoMatrix = math.zeros(3,3);
   this.vecMatrix = math.zeros(3);
   this.resultMatrix = math.zeros(3,3);
+  this.rankList = new Array(3);
+  for (var i in this.rankList) {
+    this.rankList[i] = new Fuzzifier();
+  }
 }
 Line.prototype = {
+  setRank: function() {
+    for (var i in this.rankList) {
+      this.rankList[i].setDist(this.getDist());
+      this.rankList[i].setRank(i);
+    }
+  },
   getDist: function() {
     return this.distance;
   },
