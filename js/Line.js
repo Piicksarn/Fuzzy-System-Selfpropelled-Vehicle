@@ -7,7 +7,7 @@ var Line = function(index) {
   this.homoMatrix = math.zeros(3,3);
   this.vecMatrix = math.zeros(3);
   this.resultMatrix = math.zeros(3,3);
-
+  this.rule = new Rule(index);
   // The items in the list are indicate as far, median, close
   this.rankList = new Array(3);
   for (var i in this.rankList) {
