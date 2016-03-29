@@ -10,7 +10,7 @@ var Vehicle = function(canvas) {
 var car_x = 0;
 var car_y = 0;
 var car_vector = [2, 2];
-
+var car_angle = 0;
 //a is for x and b is for y in translate, theta is degree for rotate.
 function homogenous(theta, a, b) {
   var Vmatrix = math.matrix();
@@ -52,7 +52,7 @@ Vehicle.prototype = {
     this.clear();
   },
   transform: function() {
-    console.log(car_x+"   "+ car_y);
+  //  console.log(car_x+"   "+ car_y);
     this.vecMatrix = setVector(car_x, car_y);
     this.homoMatrix = homogenous(0, 2, 2); //homogenous(angle, x, y)
     this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);

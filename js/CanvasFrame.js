@@ -3,6 +3,7 @@ var maze = new Maze();
 var ctx;
 var lineList = new Array(3);
 var footCount = 0;
+var start = false;
 function createLine() {
   for (var i = 0; i < lineList.length; i++) {
     lineList[i] = new Line(i);
@@ -22,8 +23,9 @@ var CFrame = function() {
   requestAnimationFrame(refresh);
 }
 function refresh() {
-  setTimeout(function() {
 
+  setTimeout(function() {
+  if(start) {
     vehicle.clear();
     ctx.save();
     maze.drawItem();
@@ -40,9 +42,19 @@ function refresh() {
      }
     ctx.restore();
     footCount++;
-    requestAnimationFrame(refresh);
-  }, 100);
+  }
+  requestAnimationFrame(refresh);
+
+  }, 5);
 }
 CFrame.prototype = {
-
+  setSystem: function(angle, x, y) {
+    car_x = x;
+    car_y = y;
+    car_angle = angle;
+    console.log(car_x+" "+car_y+" "+car_angle);
+  },
+  setStart: function() {
+    start = true;
+  }
 }// end of proto
