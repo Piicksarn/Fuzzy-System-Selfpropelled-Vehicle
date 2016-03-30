@@ -2,7 +2,6 @@ const RADIUS = 60;
 var Vehicle = function(canvas) {
   this.canvas = document.getElementById(canvas);
   this.ctx = this.canvas.getContext('2d');
-  this.maze = new Object();
   this.homoMatrix = math.zeros(3,3);
   this.vecMatrix = math.zeros(3);
   this.resultMatrix = math.zeros(3,3);
@@ -23,7 +22,6 @@ function homogenous(theta, a, b) {
     [Math.sin(theta), Math.cos(theta), 0 ],
     [0, 0, 1]
   ];
-  //console.log("Math.cos(theta): "+ Math.cos(45) + "---"+Math.cos(theta));
 
   Tmatrix = [
     [1, 0, a],
@@ -52,7 +50,6 @@ Vehicle.prototype = {
     this.clear();
   },
   transform: function() {
-  //  console.log(car_x+"   "+ car_y);
     this.vecMatrix = setVector(car_x, car_y);
     this.homoMatrix = homogenous(0, 2, 2); //homogenous(angle, x, y)
     this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);
