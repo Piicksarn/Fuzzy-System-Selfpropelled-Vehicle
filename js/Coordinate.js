@@ -1,31 +1,20 @@
-var Coordinate = function() {
-  this.theta = 0;
-  this.phi = 0;
-  this.degree = 0;
-  this.x = 0;
-  this.y = 0;
+var angle_phi = 0;
+var angle_theta = 0;
+var start = false;
+var Coordinate = function(theta) {
+  this.theta = theta;
 };
 
-function worldCoordinate() {
-
-
-}
 Coordinate.prototype ={
   getX: function() {
-    return this.x + Math.cos(this.phi + this.theta) + Math.sin(this.theta) * Math.sin(this.phi);
+    console.log("Math.cos(angle_phi + this.theta): "+Math.cos(angle_phi + this.theta)+" Math.sin(this.theta) * Math.sin(angle_phi): "+Math.sin(this.theta) * Math.sin(angle_phi)+" car_x:"+car_x);
+    var angle = math.add(Math.cos(angle_phi + this.theta), Math.sin(this.theta) * Math.sin(angle_phi));
+    return math.add(car_x, angle);// + Math.cos(angle_phi + this.theta) + Math.sin(this.theta) * Math.sin(angle_phi);
   },
   getY: function() {
-    return this.y + Math.cos(this.phi + this.theta) - Math.sin(this.theta) * Math.sin(this.phi);
+    return car_y + Math.cos(angle_phi + this.theta) - Math.sin(this.theta) * Math.sin(angle_phi);
   },
-  getPhi: function() {
-    return this.phi;
-  },
-  setPhi: function(phi) {
-    // this.phi = this.phi - Math.asin(2 * Math.sin(this.theta) / 6 * OFFSET);
-    this.phi = phi;
-  },
-  setTheta: function(theta) {
-    this.phi = theta;
+  setTheta: function(angle) {
+    this.theta = angle;
   }
-
 }

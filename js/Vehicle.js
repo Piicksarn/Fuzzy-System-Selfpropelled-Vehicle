@@ -39,10 +39,7 @@ function calResultMat(vactor, homo) {
 }
 
 Vehicle.prototype = {
-  clear: function() {
-    this.ctx.fillStyle = 'rgba(255,255,255, 1)';
-    this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-  },
+
   initial: function() {
     this.ctx.translate(60 + RADIUS + 20, 480 + 20);
   },
@@ -51,23 +48,26 @@ Vehicle.prototype = {
   },
   transform: function() {
     this.vecMatrix = setVector(car_x, car_y);
-    this.homoMatrix = homogenous(0, 2, 2); //homogenous(angle, x, y)
+    this.homoMatrix = homogenous(angle_theta, 2, 2); //homogenous(angle, x, y)
     this.resultMatrix = calResultMat(this.vecMatrix, this.homoMatrix);
     car_x = this.resultMatrix[0];
     car_y = this.resultMatrix[1];
   },
   drawCar: function(ctx) {
-    this.transform();
-
-    // Save the footprint in the list when draw the car
-    if(footCount % 10 == 0) {
-      var foot = new FootPrint(car_x, car_y);
-      footprintList.push(foot);
+    if(start) {
+      this.transform();
+      // Save the footprint in the list when draw the car
+      if(footCount % 10 == 0) {
+        var foot = new FootPrint(car_x, car_y);
+        footprintList.push(foot);
+      }
     }
-
     // Draw the car
     ctx.beginPath();
-    ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
+    if(this.checkInBound())
+      ctx.fillStyle = "rgba(255, 20, 20, 0.7)";
+    else
+      ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
     ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();

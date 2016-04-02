@@ -3,7 +3,13 @@ var maze = new Maze();
 var ctx;
 var lineList = new Array(3);
 var footCount = 0;
-var start = false;
+var car_x = 0;
+var car_y = 0;
+var car_vector = [2, 2];
+var coordinate = new Coordinate(0);
+var set = false;
+var draw_x = 0;
+var draw_y = 0;
 function createLine() {
   for (var i = 0; i < lineList.length; i++) {
     lineList[i] = new Line(i);
@@ -17,42 +23,102 @@ var CFrame = function() {
   vehicle = new Vehicle("canvas");
   ctx = this.ctx;
   createLine();
+  this.inBound = true;
   this.canvas.addEventListener('mousemove', function(e){
-    //console.log("x: "+ e.clientX +" y: "+ e.clientY);
+    //This part would be the mouse sensor for setting initial position
+    if (!set) {
+      clear();
+      maze.drawItem();
+      draw_x = e.clientX - $(this).offset().left;
+      draw_y = e.clientY - $(this).offset().top;
+      ctx.beginPath();
+      if(!inBound())
+        ctx.fillStyle = "rgba(255, 20, 20, 0.7)";
+      else
+      ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
+      ctx.arc(draw_x, draw_y, RADIUS, 0, Math.PI*2, true);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+  });
+  this.canvas.addEventListener("click", function(e){
+    if(inBound()) {
+      car_x = draw_x;
+      car_y = draw_y;
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(20, 255, 20, 0.7)";
+      ctx.arc(draw_x, draw_y, RADIUS, 0, Math.PI*2, true);
+      ctx.closePath();
+      ctx.fill();
+      set = true;
+    }
+    else {
+      swal({
+        title: "超出範圍啦!",
+        timer: 1300,
+        type: "error",
+        showConfirmButton: false
+      });
+    }
   });
   requestAnimationFrame(refresh);
 }
+function inBound() {
+  var x = draw_x - 60 - RADIUS - OFFSET;
+  var y = (draw_y - 480) - OFFSET;
+  if (math.largerEq(y, -480) && math.smallerEq(y, 0) && math.largerEq(x, -60) && math.smallerEq(x, 480 + RADIUS) ) {
+    if (math.largerEq(y, -480) && math.smallerEq(y, -360+60) && math.smallerEq(x, 300+2*RADIUS)) {
+      if (math.largerEq(x, -60))
+        return false;
+    }
+    if (math.largerEq(y, -120-RADIUS) && math.smallerEq(y, 0+RADIUS) && math.smallerEq(x, 300+2*RADIUS)) {
+      if (math.largerEq(x, 120-RADIUS))
+        return false;
+    }
+    return true;
+   }
+  else return false;
+}
+// refresh function is for moving and calculating the position in times
 function refresh() {
-
   setTimeout(function() {
   if(start) {
-    vehicle.clear();
+    clear();
     ctx.save();
-    maze.drawItem();
+    //maze.drawItem();
+    // Making the origin point match to the setting of vehicle's position.
     ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
+    console.log("X: "+car_x);
+    car_x = coordinate.getX();
+    car_y = coordinate.getY();
+  //  console.log(car_x+","+car_y);
     for (var i = 0; i < wallList.length; i++) {
          wallList[i].drawItem(ctx);
     }
     for (var i = 0; i < footprintList.length; i++) {
       footprintList[i].drawItem(ctx);
     }
-    vehicle.drawCar(ctx);
     for (var i = 0; i < lineList.length; i++) {
        lineList[i].drawLine(i);
-     }
+    }
+    vehicle.drawCar(ctx);
     ctx.restore();
     footCount++;
   }
   requestAnimationFrame(refresh);
-
   }, 5);
+}
+function clear() {
+  this.ctx.fillStyle = 'rgba(255,255,255, 1)';
+  this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 }
 CFrame.prototype = {
   setSystem: function(angle, x, y) {
     car_x = x;
     car_y = y;
-    car_angle = angle;
-    console.log(car_x+" "+car_y+" "+car_angle);
+    angle_phi = angle;
+    console.log(car_x+" "+car_y+" "+angle_phi);
   },
   setStart: function() {
     start = true;

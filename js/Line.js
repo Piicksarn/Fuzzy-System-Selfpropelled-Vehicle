@@ -8,7 +8,7 @@ var Line = function(index) {
   this.vecMatrix = math.zeros(3);
   this.resultMatrix = math.zeros(3,3);
   this.rule = new Rule(index);
-  
+
   // The items in the list are indicate as far, median, close
   this.rankList = new Array(3);
   for (var i in this.rankList) {
@@ -38,6 +38,8 @@ Line.prototype = {
     var point_x = car_x + RADIUS * math.cos(math.pi / 4 * (this.index + 1));
     var point_y = - car_y - RADIUS * math.sin(math.pi / 4 * (this.index + 1));
     this.car_surface = [math.round(point_x), math.round(point_y)];
+    console.log("caar_x:"+car_x+"  car_y:"+car_y+"  angle_phi:"+angle_phi);
+
     var interList = new Array();
     for (var i = 0; i < wallList.length; i++) {
        var intPoint = this.intersect(car_x, -car_y, this.car_surface[0], this.car_surface[1], wallList[i]);
@@ -87,7 +89,6 @@ Line.prototype = {
   },
   drawLine: function() {
     this.distCal();
-
     ctx.beginPath();
     ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true);
     ctx.fillStyle = "rgba(0, 197, 0, 1)";
