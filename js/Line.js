@@ -37,96 +37,117 @@ Line.prototype = {
     this.angle = degree;
   },
   drawSurface: function() {
-    var point = math.ones(3);
-    var point_x = car_x + RADIUS * math.cos(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
-    var point_y = car_y + RADIUS * math.sin(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
-    this.car_surface = paintTran([math.round(point_x), math.round(point_y)]);
+    // Draw sensor lines
+    var point = paintTran([this.car_surface[0] , this.car_surface[1]]);
+    var Carpoint = paintTran([car_x, car_y]);
     ctx.beginPath();
-    ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true)
+    ctx.moveTo(Carpoint[0], Carpoint[1]);
+    ctx.strokeStyle = "#FFF"
+    ctx.lineTo(point[0] , point[1]);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Draw the surface point
+    ctx.beginPath();
+    ctx.arc(point[0] , point[1], 10, 0, Math.PI*2, true)
     ctx.fillStyle = "rgba(93, 194, 219, 1)";
+    ctx.closePath();
+    ctx.fill();
+  },
+  drawEnd: function() {
+    // Draw sensor lines
+    var point = paintTran([this.end[0], this.end[1]]);
+    var Surpoint = paintTran([this.car_surface[0], this.car_surface[1]]);
+    ctx.beginPath();
+    ctx.moveTo(Surpoint[0], Surpoint[1]);
+    ctx.strokeStyle = "#FFF"
+    ctx.lineTo(point[0] , point[1]);
+    ctx.closePath();
+    ctx.stroke();
+
+    // Draw the end point
+    ctx.beginPath();
+    ctx.arc(point[0] , point[1], 10, 0, Math.PI*2, true)
+    ctx.fillStyle = "rgba(255, 19, 21, 1)";
     ctx.closePath();
     ctx.fill();
   },
   distCal: function() {
+    // Searching the Surface point
+    var point_x = car_x + RADIUS * math.cos(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
+    var point_y = car_y + RADIUS * math.sin(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
+    this.car_surface = [math.round(point_x), math.round(point_y)];
 
+    // Searching the end point
     var interList = new Array();
     for (var i = 0; i < wallList.length; i++) {
-       var intPoint = this.intersect(car_x, -car_y, this.car_surface[0], this.car_surface[1], wallList[i]);
-       interList.push(intPoint);
+       var intPoint = this.intersect(car_x, car_y, this.car_surface[0], this.car_surface[1], wallList[i]);
+       if(intPoint!=null)
+          interList.push(intPoint);
      }
-     var min = 700;
-       for (var i = 0; i < interList.length; i++) {
-         if(math.distance(interList[i],[car_x, car_y]) < min) {
-           min = math.distance(interList[i],[car_x, car_y]);
-           this.end = interList[i];
-           this.distance = min;
-         }
-      }
-      ctx.restore();
+
+    // Searching the minimal distance intersect point
+    var min = 700;
+    for (var i = 0; i < interList.length; i++) {
+      if(math.distance(interList[i],[car_x, car_y]) < min) {
+        min = math.distance(interList[i],[car_x, car_y]);
+        this.end = interList[i];
+        this.distance = min;
+       }
+    }
   },
   intersect: function (sx, sy, ex, ey, wall) {
     var result_x = math.round(math.intersect([sx, sy], [ex, ey], wall.getSP(), wall.getEP()))[0];
     var result_y = math.round(math.intersect([sx, sy], [ex, ey], wall.getSP(), wall.getEP()))[1];
-
     if(wall.getStyle() == 'y') {
-        if(this.checkInBound(result_x, wall)) {
-          if(math.dot([(ex - sx), (ey - sy)], [(sx - sx), (-wall.getLine() - sy)]) > 0) {
+        if(this.checkInBound(result_x, wall))
+          if(math.dot([(ex - sx), (ey - sy)], [(result_x - sx), (wall.getLine() - sy)]) > 0)
             return math.round(math.intersect([sx, sy], [ex, ey], wall.getSP(), wall.getEP()));
-          }
-        }
     }
     else {
-         if(this.checkInBound(result_y, wall)) {
-         if(math.dot([(ex - sx), (ey - sy)], [(sx - sx), (wall.getLine() - sy)]) > 0) {
+      if(this.checkInBound(result_y, wall))
+         if(math.dot([(ex - sx), (ey - sy)], [(wall.getLine() - sx), (result_y - sy)]) > 0)
            return math.round(math.intersect([sx, sy], [ex, ey], wall.getSP(), wall.getEP()));
-
-         }
-       }
     }
-    return [1000, 1000];
+    return null;
   },
   checkInBound: function(x, wall) {
-    if(wall.getStyle() == 'y') {
-      if(x >= wall.getMin() && x <= wall.getMax())
+    if(x >= wall.getMin() && x <= wall.getMax())
         return true;
-    }
-    else {
-      if(x <= -wall.getMin() && x >= -wall.getMax()){
-        return true;
-      }
-    }
     return false;
   },
   drawLine: function() {
     this.distCal();
-    ctx.beginPath();
-    ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true);
-    ctx.fillStyle = "rgba(0, 197, 0, 1)";
-    ctx.closePath();
-    ctx.fill();
-    this.distCal();
-
-    // Draw sensor lines
-    ctx.beginPath();
-    ctx.moveTo(car_x, -1 * car_y);
-    ctx.strokeStyle = "#FFF"
-    ctx.lineTo(this.end[0] , this.end[1]);
-    ctx.closePath();
-    ctx.stroke();
-
-    // Draw surface point
-    ctx.beginPath();
-    ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true)
-    ctx.fillStyle = "rgba(93, 194, 219, 1)";
-    ctx.closePath();
-    ctx.fill();
-
-    // Draw end points
-    ctx.beginPath();
-    ctx.arc(this.end[0] , this.end[1], 10, 0, Math.PI*2, true);
-    ctx.fillStyle = "rgba(219, 118, 93, 1)";
-    ctx.closePath();
-    ctx.fill();
+    this.drawSurface();
+    this.drawEnd();
+    // ctx.beginPath();
+    // ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true);
+    // ctx.fillStyle = "rgba(0, 197, 0, 1)";
+    // ctx.closePath();
+    // ctx.fill();
+    // this.distCal();
+    //
+    // // Draw sensor lines
+    // ctx.beginPath();
+    // ctx.moveTo(car_x, -1 * car_y);
+    // ctx.strokeStyle = "#FFF"
+    // ctx.lineTo(this.end[0] , this.end[1]);
+    // ctx.closePath();
+    // ctx.stroke();
+    //
+    // // Draw surface point
+    // ctx.beginPath();
+    // ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true)
+    // ctx.fillStyle = "rgba(93, 194, 219, 1)";
+    // ctx.closePath();
+    // ctx.fill();
+    //
+    // // Draw end points
+    // ctx.beginPath();
+    // ctx.arc(this.end[0] , this.end[1], 10, 0, Math.PI*2, true);
+    // ctx.fillStyle = "rgba(219, 118, 93, 1)";
+    // ctx.closePath();
+    // ctx.fill();
 
 
   }

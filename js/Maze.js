@@ -37,6 +37,10 @@ function createWalls() {
   wallList.push(wall5);
   var wall6 = new Wall(0, 6, 6, 30);
   wallList.push(wall6);
+  var wall7 = new Wall(0, 0.001, -6, 6);
+  wallList.push(wall7);
+  var wall8 = new Wall(0, 24, 18, 30);
+  wallList.push(wall8);
 }
 
 function mapMatToMaze(mapMatPro) {

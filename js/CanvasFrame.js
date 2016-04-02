@@ -22,7 +22,9 @@ function initState(angle) {
   vehicle.drawCar(ctx);
   maze.drawItem();
   for (var i = 0; i < lineList.length; i++) {
+    lineList[i].distCal();
     lineList[i].drawSurface();
+    lineList[i].drawEnd();
   }
 }
 function paintTran(oPoint) {
@@ -103,12 +105,12 @@ function refresh() {
     ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
      car_x = coordinate.getX();
      car_y = coordinate.getY();
-    for (var i = 0; i < wallList.length; i++) {
-         wallList[i].drawItem(ctx);
-    }
-    for (var i = 0; i < footprintList.length; i++) {
-      footprintList[i].drawItem(ctx);
-    }
+    // for (var i = 0; i < wallList.length; i++) {
+    //      wallList[i].drawItem(ctx);
+    // }
+    // for (var i = 0; i < footprintList.length; i++) {
+    //   footprintList[i].drawItem(ctx);
+    // }
     for (var i = 0; i < lineList.length; i++) {
        lineList[i].drawLine(i);
     }
@@ -124,9 +126,7 @@ function clear() {
   this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 }
 CFrame.prototype = {
-  setSystem: function(angle, x, y) {
-    car_x = x;
-    car_y = y;
+  setSystem: function(angle) {
     angle_phi = angle;
     console.log(car_x+" "+car_y+" "+angle_phi);
   },
