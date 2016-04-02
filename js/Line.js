@@ -1,6 +1,5 @@
 var Line = function(index) {
   this.distance = 0;
-  this.angle = 45;
   this.index = index;
   this.car_surface = math.zeros(2);
   this.end = math.zeros(2);
@@ -34,11 +33,21 @@ Line.prototype = {
   getEnd: function() {
     return this.endPos;
   },
+  setAngle: function(degree) {
+    this.angle = degree;
+  },
+  drawSurface: function() {
+    var point = math.ones(3);
+    var point_x = car_x + RADIUS * math.cos(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
+    var point_y = car_y + RADIUS * math.sin(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
+    this.car_surface = paintTran([math.round(point_x), math.round(point_y)]);
+    ctx.beginPath();
+    ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true)
+    ctx.fillStyle = "rgba(93, 194, 219, 1)";
+    ctx.closePath();
+    ctx.fill();
+  },
   distCal: function() {
-    var point_x = car_x + RADIUS * math.cos(math.pi / 4 * (this.index + 1));
-    var point_y = - car_y - RADIUS * math.sin(math.pi / 4 * (this.index + 1));
-    this.car_surface = [math.round(point_x), math.round(point_y)];
-    console.log("caar_x:"+car_x+"  car_y:"+car_y+"  angle_phi:"+angle_phi);
 
     var interList = new Array();
     for (var i = 0; i < wallList.length; i++) {
@@ -53,6 +62,7 @@ Line.prototype = {
            this.distance = min;
          }
       }
+      ctx.restore();
   },
   intersect: function (sx, sy, ex, ey, wall) {
     var result_x = math.round(math.intersect([sx, sy], [ex, ey], wall.getSP(), wall.getEP()))[0];

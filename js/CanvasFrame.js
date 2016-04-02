@@ -7,7 +7,7 @@ var car_x = 0;
 var car_y = 0;
 var car_vector = [2, 2];
 var coordinate = new Coordinate(0);
-var set = false;
+var set = false; // If the mouse click on the canvas, turn to true.
 var draw_x = 0;
 var draw_y = 0;
 function createLine() {
@@ -15,7 +15,21 @@ function createLine() {
     lineList[i] = new Line(i);
     lineList[i].tmp = [0,0];
   }
-
+}
+function initState(angle) {
+  angle_phi = angle;
+  clear();
+  vehicle.drawCar(ctx);
+  maze.drawItem();
+  for (var i = 0; i < lineList.length; i++) {
+    lineList[i].drawSurface();
+  }
+}
+function paintTran(oPoint) {
+  var point = math.zeros(2);
+  point[0] = oPoint[0] + 60 + RADIUS + OFFSET;
+  point[1] = -oPoint[1] + 8 * RADIUS + OFFSET;
+ return point;
 }
 var CFrame = function() {
   this.canvas = document.getElementById("canvas");
@@ -23,9 +37,10 @@ var CFrame = function() {
   vehicle = new Vehicle("canvas");
   ctx = this.ctx;
   createLine();
+
+// Set the initial position using mouse
   this.inBound = true;
   this.canvas.addEventListener('mousemove', function(e){
-    //This part would be the mouse sensor for setting initial position
     if (!set) {
       clear();
       maze.drawItem();
@@ -44,14 +59,11 @@ var CFrame = function() {
   });
   this.canvas.addEventListener("click", function(e){
     if(inBound()) {
-      car_x = draw_x;
-      car_y = draw_y;
-      ctx.beginPath();
-      ctx.fillStyle = "rgba(20, 255, 20, 0.7)";
-      ctx.arc(draw_x, draw_y, RADIUS, 0, Math.PI*2, true);
-      ctx.closePath();
-      ctx.fill();
+      car_x = draw_x - 2*RADIUS - OFFSET;
+      car_y = -(draw_y - 500);
+      vehicle.drawCar(ctx);
       set = true;
+      initState(0);
     }
     else {
       swal({
@@ -86,13 +98,11 @@ function refresh() {
   if(start) {
     clear();
     ctx.save();
-    //maze.drawItem();
+    maze.drawItem();
     // Making the origin point match to the setting of vehicle's position.
     ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
-    console.log("X: "+car_x);
-    car_x = coordinate.getX();
-    car_y = coordinate.getY();
-  //  console.log(car_x+","+car_y);
+     car_x = coordinate.getX();
+     car_y = coordinate.getY();
     for (var i = 0; i < wallList.length; i++) {
          wallList[i].drawItem(ctx);
     }

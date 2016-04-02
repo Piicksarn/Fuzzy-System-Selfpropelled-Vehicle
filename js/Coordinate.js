@@ -7,7 +7,7 @@ var Coordinate = function(theta) {
 
 Coordinate.prototype ={
   getX: function() {
-    console.log("Math.cos(angle_phi + this.theta): "+Math.cos(angle_phi + this.theta)+" Math.sin(this.theta) * Math.sin(angle_phi): "+Math.sin(this.theta) * Math.sin(angle_phi)+" car_x:"+car_x);
+    // console.log("Math.cos(angle_phi + this.theta): "+Math.cos(angle_phi + this.theta)+" Math.sin(this.theta) * Math.sin(angle_phi): "+Math.sin(this.theta) * Math.sin(angle_phi)+" car_x:"+car_x);
     var angle = math.add(Math.cos(angle_phi + this.theta), Math.sin(this.theta) * Math.sin(angle_phi));
     return math.add(car_x, angle);// + Math.cos(angle_phi + this.theta) + Math.sin(this.theta) * Math.sin(angle_phi);
   },

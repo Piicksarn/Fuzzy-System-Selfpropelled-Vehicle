@@ -39,7 +39,6 @@ function calResultMat(vactor, homo) {
 }
 
 Vehicle.prototype = {
-
   initial: function() {
     this.ctx.translate(60 + RADIUS + 20, 480 + 20);
   },
@@ -54,6 +53,7 @@ Vehicle.prototype = {
     car_y = this.resultMatrix[1];
   },
   drawCar: function(ctx) {
+
     if(start) {
       this.transform();
       // Save the footprint in the list when draw the car
@@ -64,11 +64,8 @@ Vehicle.prototype = {
     }
     // Draw the car
     ctx.beginPath();
-    if(this.checkInBound())
-      ctx.fillStyle = "rgba(255, 20, 20, 0.7)";
-    else
-      ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
-    ctx.arc(car_x, -1 * car_y, RADIUS, 0, Math.PI*2, true);
+    ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
+    ctx.arc(draw_x, draw_y, RADIUS, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();
   }

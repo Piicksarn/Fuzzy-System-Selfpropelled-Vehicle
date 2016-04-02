@@ -108,6 +108,7 @@
       var track = function (data) {
         $result.html("Angle: " + data.from);
         angleset = data.from;
+        initState(angleset);
       };
       $range.ionRangeSlider({
         hide_min_max: true,
