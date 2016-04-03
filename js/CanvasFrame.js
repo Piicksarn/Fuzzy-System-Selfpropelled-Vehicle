@@ -10,6 +10,7 @@ var coordinate = new Coordinate(0);
 var set = false; // If the mouse click on the canvas, turn to true.
 var draw_x = 0;
 var draw_y = 0;
+var fuzzySys = new FuzzySystem();
 function createLine() {
   for (var i = 0; i < lineList.length; i++) {
     lineList[i] = new Line(i);
@@ -101,10 +102,17 @@ function refresh() {
     clear();
     ctx.save();
     maze.drawItem();
+
+    /*NEED THE FUZZY SYSTEM AT HERE*/
+    fuzzySys.fuzzifier();
+    fuzzySys.fuzzRule();
+    fuzzySys.defuzzifier();
+
     // Making the origin point match to the setting of vehicle's position.
-    ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
-     car_x = coordinate.getX();
-     car_y = coordinate.getY();
+    //ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
+    car_x = coordinate.getX();
+    car_y = coordinate.getY();
+    coordinate.setNewPhi();
     // for (var i = 0; i < wallList.length; i++) {
     //      wallList[i].drawItem(ctx);
     // }
@@ -126,10 +134,6 @@ function clear() {
   this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 }
 CFrame.prototype = {
-  setSystem: function(angle) {
-    angle_phi = angle;
-    console.log(car_x+" "+car_y+" "+angle_phi);
-  },
   setStart: function() {
     start = true;
   }
