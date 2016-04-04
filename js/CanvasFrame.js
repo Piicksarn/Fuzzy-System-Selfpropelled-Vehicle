@@ -110,9 +110,13 @@ function refresh() {
 
     // Making the origin point match to the setting of vehicle's position.
     //ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
+    coordinate.setTheta(angle_theta);
+
+    angle_phi+=angle_theta;
     car_x = coordinate.getX();
     car_y = coordinate.getY();
     coordinate.setNewPhi();
+    console.log("x: "+car_x+" y: "+car_y);
     // for (var i = 0; i < wallList.length; i++) {
     //      wallList[i].drawItem(ctx);
     // }
@@ -127,7 +131,7 @@ function refresh() {
     footCount++;
   }
   requestAnimationFrame(refresh);
-  }, 5);
+}, 1000);
 }
 function clear() {
   this.ctx.fillStyle = 'rgba(255,255,255, 1)';

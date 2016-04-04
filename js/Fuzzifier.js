@@ -9,11 +9,14 @@ var Fuzzifier = function() {
 }
 
 Fuzzifier.prototype = {
+  setRank: function(rank) {
+    this.rank = rank;
+  },
   setDist: function(dist) {
     this.dist = dist;
   },
-  getRank: function(rank) {
-    switch (rank) {
+  getRank: function() {
+    switch (this.rank) {
       case 0:
         this.farFunc();
         break;
@@ -25,9 +28,10 @@ Fuzzifier.prototype = {
         break;
       default:
     }
+    return this.rankVal;
   },
   farFunc: function() {
-    var inSet = 1 - (this.dist - 360) / 300;
+    var inSet = 1 - math.abs((this.dist - 360)) / 300;
     if(inSet > 0 && inSet < 1 )
       this.rankVal = inSet;
     else if(inSet <= 0)

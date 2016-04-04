@@ -7,7 +7,11 @@ var Coordinate = function(theta) {
 
 Coordinate.prototype ={
   getX: function() {
+    this.theta = 0;
     var angle = math.add(math.cos((angle_phi*math.pi/180) + (this.theta*math.pi/180)), math.sin(this.theta*math.pi/180) * math.sin(angle_phi*math.pi/180));
+    console.log(angle);
+    console.log("add: "+math.add(car_x, angle)+" x:"+car_x);
+
     return math.add(car_x, angle);
   },
   getY: function() {
@@ -17,6 +21,7 @@ Coordinate.prototype ={
     this.theta = angle;
   },
   setNewPhi: function() {
-    return angle_phi - math.asin(2 * math.sin(this.theta * math.pi / 180)/ RADIUS);
+    angle_phi = angle_phi - math.asin(2 * math.sin(this.theta * math.pi / 180)/ RADIUS)
+    return angle_phi;
   }
 }
