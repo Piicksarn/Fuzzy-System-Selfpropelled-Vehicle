@@ -22,17 +22,17 @@ Wall.prototype = {
   getSP: function() {
     var point = math.zeros(2);
     if(this.x == 0)
-      point = [this.min, - this.y];
+      point = [this.min, this.y];
     else
-      point = [this.x, - this.min];
+      point = [this.x, this.min];
     return point;
   },
   getEP: function() {
     var point = math.zeros(2);
     if(this.x == 0)
-      point = [this.max, - this.y];
+      point = [this.max, this.y];
     else
-      point = [this.x, - this.max];
+      point = [this.x, this.max];
     return point;
   },
   getStyle: function() {
