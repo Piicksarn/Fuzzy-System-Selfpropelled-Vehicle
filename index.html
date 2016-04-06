@@ -36,9 +36,6 @@
       <h1 style="margin-left: 20px">Setting</h1>
       <ul>
         <li>
-          Position
-          <input type="text" id="xPos" placeholder="X" class="settingText">
-          <input type="text" id="yPos" placeholder="Y" class="settingText">
           Angle
           <input type="text" id="range" value="" name="range" />
           Rate
@@ -115,7 +112,7 @@
         keyboard: true,
         min: -90,
         max: 270,
-        from: 45,
+        from: 0,
         grid: true,
         onStart: track,
         onChange: track,
@@ -124,7 +121,7 @@
       });
 
      var doSetting = function() {
-       $('#Ipos').text("[x,y] = ["+$('#xPos').val()+" , "+ $('#yPos').val()+"] ");//= ;
+       //$('#Ipos').text("[x,y] = ["+$('#xPos').val()+" , "+ $('#yPos').val()+"] ");//= ;
      };
      $(function () {
        var $Rrange = $("#Rrange");
