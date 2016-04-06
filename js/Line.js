@@ -50,7 +50,7 @@ Line.prototype = {
     // Draw the surface point
     ctx.beginPath();
     ctx.arc(point[0] , point[1], 10, 0, Math.PI*2, true)
-    ctx.fillStyle = "rgba(93, 194, 219, 1)";
+    ctx.fillStyle = "rgba(23, 140, 216, 1)";
     ctx.closePath();
     ctx.fill();
   },
@@ -58,6 +58,7 @@ Line.prototype = {
     // Draw sensor lines
     var point = paintTran([this.end[0], this.end[1]]);
     var Surpoint = paintTran([this.car_surface[0], this.car_surface[1]]);
+    ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(Surpoint[0], Surpoint[1]);
     ctx.strokeStyle = "#FFF"
@@ -68,9 +69,16 @@ Line.prototype = {
     // Draw the end point
     ctx.beginPath();
     ctx.arc(point[0] , point[1], 10, 0, Math.PI*2, true)
-    ctx.fillStyle = "rgba(255, 19, 21, 1)";
+    ctx.fillStyle = "rgba(236, 90, 80,1)";
     ctx.closePath();
     ctx.fill();
+
+    ctx.beginPath();
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = "rgba(236, 80, 96, 1)";
+    ctx.arc(point[0], point[1], 15, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.stroke();
   },
   distCal: function() {
     // Searching the Surface point
@@ -118,7 +126,5 @@ Line.prototype = {
   },
   drawLine: function() {
     this.distCal();
-    this.drawSurface();
-    this.drawEnd();
   }
 }

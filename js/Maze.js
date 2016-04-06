@@ -78,9 +78,9 @@ Maze.prototype = {
       for( var j = 0; j < this.maze.length; j++)
         for(var k = 0; k < this.maze[j].length; k++) {
           if(this.maze[j][k] == "1")
-            ctx.fillStyle = "rgba(245, 239, 0, 0.5)";
+            ctx.fillStyle = "rgba(174, 227, 192, 1)";
           else
-            ctx.fillStyle = "rgba(10, 10, 10, 0.2)";
+            ctx.fillStyle = "rgba(243, 239, 76, 0.8)";
           ctx.fillRect(20 + OFFSET * k, 20 + OFFSET * j, OFFSET, OFFSET);
         }
     }// End of if condition for canvas context.

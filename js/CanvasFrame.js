@@ -2,7 +2,7 @@ var vehicle;
 var maze = new Maze();
 var ctx;
 var lineList = new Array(3);
-var footCount = 0;
+var footCount = -1;
 var car_x = 0;
 var car_y = 0;
 var car_vector = [2, 2];
@@ -105,33 +105,33 @@ function refresh() {
   if(start) {
     clear();
     maze.drawItem();
-
-    /*NEED THE FUZZY SYSTEM AT HERE*/
     fuzzySys.fuzzifier();
     fuzzySys.fuzzRule();
     fuzzySys.defuzzifier();
-
-    // Making the origin point match to the setting of vehicle's position.
-    //ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
     coordinate.setTheta(angle_theta);
-
-  //  angle_phi += angle_theta;
     car_x = coordinate.getX();
     car_y = coordinate.getY();
     tmpX = car_x;
     tmpY = car_y;
     coordinate.setNewPhi();
-  //Need the stop condition
-  if(tmpY >= 480)
-    start = false;
 
+    if(tmpY >= 480)
+      start = false;
+
+    for (var i = 0; i < wallList.length; i++) {
+         wallList[i].drawItem(ctx);
+    }
     for (var i = 0; i < footprintList.length; i++) {
        footprintList[i].drawItem(ctx);
     }
     for (var i = 0; i < lineList.length; i++) {
        lineList[i].drawLine(i);
+       lineList[i].drawEnd();
     }
     vehicle.drawCar(ctx);
+    for (var i = 0; i < lineList.length; i++) {
+       lineList[i].drawSurface();
+    }
     footCount++;
   }
   requestAnimationFrame(refresh);

@@ -16,10 +16,11 @@ FootPrint.prototype = {
   drawItem: function(ctx) {
     var point = paintTran([this.x, this.y]);
     ctx.beginPath();
-    ctx.fillStyle = "rgba(44, 20, 195, 1)";
-    ctx.arc(point[0], point[1], 5, 0, Math.PI*2, true);
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = "rgba(70, 70, 70, 1)";
+    ctx.arc(point[0], point[1], 7, 0, Math.PI*2, true);
     ctx.closePath();
-    ctx.fill();
+    ctx.stroke();
 
   }
 }
