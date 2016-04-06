@@ -19,7 +19,7 @@ var Maze = function() {
   this.mapMatPro[2] = new Array("0", "0", "0", "0", "0", "0");
   this.mapMatPro[3] = new Array("0", "0", "1", "1", "1", "1");
 
-  // map the protottype matrix to the maze
+  // map the prototype matrix to the maze
   this.maze = mapMatToMaze(this.mapMatPro);
   createWalls();
 };

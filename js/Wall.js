@@ -11,14 +11,6 @@ var Wall = function(x, y, min, max) {
 }
 
 Wall.prototype = {
-  checkInBound: function(x){
-    if( x > this.max || x < this.min)
-      return false;
-    return true;
-  },
-  getArg: function() {
-    return this.x;
-  },
   getSP: function() {
     var point = math.zeros(2);
     if(this.x == 0)
@@ -50,19 +42,5 @@ Wall.prototype = {
     if(this.x == 0)
       return this.y;
     return this.x;
-  },
-  drawItem: function(ctx) {
-    ctx.lineWidth = 6;
-    ctx.lineCap="round"
-    ctx.beginPath();
-    if(this.x == 0) {
-      ctx.moveTo(this.min, - this.y);
-      ctx.lineTo(this.max, - this.y);
-    }
-    else {
-      ctx.moveTo(this.x, - this.min);
-      ctx.lineTo(this.x, - this.max);
-    }
-    ctx.stroke();
   }
 }

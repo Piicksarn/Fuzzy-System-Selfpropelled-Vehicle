@@ -7,10 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.1.0/math.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.1.2/js/ion.rangeSlider.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <script type="text/javascript" src="js/DataShow.js"></script>
     <script type="text/javascript" src="js/Coordinate.js"></script>
     <script type="text/javascript" src="js/Vehicle.js"></script>
-    <script type="text/javascript" src="js/Rule.js"></script>
     <script type="text/javascript" src="js/Fuzzifier.js"></script>
     <script type="text/javascript" src="js/FuzzySystem.js"></script>
     <script type="text/javascript" src="js/Maze.js"></script>
@@ -27,10 +25,6 @@
   </head>
 
   <body>
-    <!-- Menu Part :
-        The Position part should change to use mouse listener.
-        Make the vehicle to start at the position where the mouse click.
-    -->
     <div id="toggle"></div>
     <div class="menu closed">
       <h1 style="margin-left: 20px">Setting</h1>
@@ -87,7 +81,6 @@
           </div>
         </div>
       </div>
-    <div>
     <script>
 
       var canvasF = new CFrame();
@@ -102,11 +95,9 @@
       // Setting the initial angle
       var $range = $("#range"),
       $result = $("#angle");
-      var angleset = 0;
       var track = function (data) {
         $result.html("Angle: " + data.from);
-        angleset = data.from;
-        initState(angleset);
+        initState(data.from);
       };
       $range.ionRangeSlider({
         hide_min_max: true,
@@ -156,5 +147,11 @@
         canvasF.setStart();
       });
     </script>
+    <div style="text-align: center;margin: 0px auto;">
+      <div class="footer text-center">
+        &copy; 2016 • <a target="_blank" href="https://github.com/Piicksarn">
+          <i class="fa fa-github"></i>Piicksarn</a> - Created with JavaScript.
+      </div>
+    </div>
   </body>
 </html>

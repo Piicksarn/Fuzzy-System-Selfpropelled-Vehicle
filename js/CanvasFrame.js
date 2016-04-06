@@ -123,16 +123,18 @@ function refresh() {
 
     if(tmpY + RADIUS >= 480) {
       start = false;
+      swal({
+        title: "The End!",
+        timer: 1300,
+        showConfirmButton: false
+      });
     }
 
-    for (var i = 0; i < wallList.length; i++) {
-         wallList[i].drawItem(ctx);
-    }
     for (var i = 0; i < footprintList.length; i++) {
        footprintList[i].drawItem(ctx);
     }
     for (var i = 0; i < lineList.length; i++) {
-       lineList[i].drawLine(i);
+       lineList[i].distCal();
        lineList[i].drawEnd();
     }
     vehicle.drawCar(ctx);

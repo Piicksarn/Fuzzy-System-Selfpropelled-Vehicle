@@ -6,6 +6,7 @@ var FuzzySystem = function() {
 }
 FuzzySystem.prototype = {
   fuzzifier: function() {
+    // Create three(far, mid, close) situation fuzzifier
     for (var i = 0; i < 3; i++) {
       var fuz = new Fuzzifier();
       fuz.setDist(lineList[1].getDist());
@@ -16,13 +17,15 @@ FuzzySystem.prototype = {
   },
   fuzzRule: function() {
     var delta = lineList[0].getDist() - lineList[2].getDist();
+
+    // direct is decided by the sign of delta distance
     var direct = 0;
     if(math.isNegative(delta))
       direct = -1;
     else
       direct = 1;
 
-    // know the delta between the left sensor and right sensor
+    // get the delta distance between the left-side sensor and right-side sensor
     delta = math.abs(delta);
     if(delta < RADIUS)
       this.angle = 5;
@@ -36,7 +39,7 @@ FuzzySystem.prototype = {
       this.angle = 45;
     }
 
-    // The sensor of middle would effect the angle to turn
+    // The sensor of middle would effect the angle to turn the vehicle
     var midDist = lineList[1].getDist();
     if(midDist < 2 * RADIUS)
       this.angle = this.angle * 1.8;
@@ -47,14 +50,18 @@ FuzzySystem.prototype = {
     else if(midDist >= 4 * RADIUS)
       this.angle = this.angle * 0.3;
 
+    // Prevent the vehicle bouce to the wall
     this.bouceDetector();
 
+    // The turning angle for the vehicle.
     this.angle = this.angle * direct + this.protector;
 
   },
   defuzzifier: function() {
     angle_theta =  (this.angle *this.sensorFRes[0] + this.angle *this.sensorFRes[1] + this.angle *this.sensorFRes[2]) / (this.sensorFRes[0] + this.sensorFRes[1] + this.sensorFRes[2]);
-    while (this.sensorFRes.length) { this.sensorFRes.pop(); }
+    while (this.sensorFRes.length) {
+      this.sensorFRes.pop();
+    }
   },
   bouceDetector: function() {
     this.protector = 0;
