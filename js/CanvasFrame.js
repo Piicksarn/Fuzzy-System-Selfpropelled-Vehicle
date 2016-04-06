@@ -13,6 +13,7 @@ var draw_y = 0;
 var fuzzySys = new FuzzySystem();
 var tmpX = car_x;
 var tmpY = car_y;
+var Crate = 0;
 
 function createLine() {
   for (var i = 0; i < lineList.length; i++) {
@@ -120,7 +121,7 @@ function refresh() {
     tmpY = car_y;
     coordinate.setNewPhi();
 
-    if(tmpY >= 480) {
+    if(tmpY + RADIUS >= 480) {
       start = false;
     }
 
@@ -146,7 +147,7 @@ function refresh() {
     $('#CLs').text("Left-Sensor: "+math.round(lineList[2].getDist() / OFFSET,2));
   }
   requestAnimationFrame(refresh);
-}, 5);
+}, 100 / Crate);
 }
 function clear() {
   this.ctx.fillStyle = 'rgba(255,255,255, 1)';

@@ -37,9 +37,9 @@ Line.prototype = {
     this.angle = degree;
   },
   drawSurface: function() {
-    // Draw sensor lines
     var point = paintTran([this.car_surface[0] , this.car_surface[1]]);
     var Carpoint = paintTran([car_x, car_y]);
+    // Draw sensor lines
     ctx.beginPath();
     ctx.moveTo(Carpoint[0], Carpoint[1]);
     ctx.strokeStyle = "#FFF"
@@ -73,6 +73,7 @@ Line.prototype = {
     ctx.closePath();
     ctx.fill();
 
+    // Draw the end point
     ctx.beginPath();
     ctx.lineWidth = 3;
     ctx.strokeStyle = "rgba(236, 80, 96, 1)";
@@ -82,8 +83,8 @@ Line.prototype = {
   },
   distCal: function() {
     // Searching the Surface point
-    var point_x = tmpX + RADIUS * math.cos(angle_phi - math.pi/4 + ((math.pi/4)*this.index));
-    var point_y = tmpY + RADIUS * math.sin(angle_phi - math.pi/4 + ((math.pi/4)*this.index));
+    var point_x = tmpX + RADIUS * math.cos(angle_phi - math.pi / 4 + ((math.pi / 4) * this.index));
+    var point_y = tmpY + RADIUS * math.sin(angle_phi - math.pi / 4 + ((math.pi / 4) * this.index));
     this.car_surface = [math.round(point_x), math.round(point_y)];
     // Searching the end point
     var interList = new Array();

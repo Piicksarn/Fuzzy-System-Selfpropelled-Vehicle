@@ -66,7 +66,7 @@ Vehicle.prototype = {
     // Draw the car
     var point = paintTran([tmpX, tmpY]);
     ctx.beginPath();
-    ctx.fillStyle = "rgba(21, 186, 197, 1)";
+    ctx.fillStyle = "rgba(232, 53, 105, 0.8)";
     ctx.arc(point[0], point[1], RADIUS, 0, Math.PI*2, true);
     ctx.closePath();
     ctx.fill();

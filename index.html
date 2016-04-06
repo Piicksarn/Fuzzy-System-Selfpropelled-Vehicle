@@ -70,24 +70,15 @@
         <!--For Data showing-->
         <div class="showData" id="showData">
           <div>
-            <h2 style="margin-left: 10px;">Initial Setting</h2>
-          </div>
-          <div class="dataPad">
-              <li><a><i class="fa fa-car"></i> Vehicle Position</li>
-              <div class="hidenData"><b id="Ipos"></b></div>
-              <li><a><i class="fa fa-undo"></i></i> Initial Angle</li>
-              <div class="hidenData" id="IAng"><b id="angle"></b></div>
-          </div>
-          <div>
             <h2 style="margin-left: 10px;">Result</h2>
           </div>
           <div class="dataPad">
               <li><a><i class="fa fa-car"></i> Vehicle Position</li>
-              <div class="hidenData"><b id="CPos"></b></div>
+              <div><b id="CPos"></b></div>
               <li><a><i class="fa fa-undo"></i></i> Turn Angle</li>
-              <div class="hidenData"><b id="CAng"></b></div>
+              <div><b id="CAng"></b></div>
               <li><a><i class="fa fa-bullseye"></i> Dist of Sensors</li>
-              <div id="cSens"class="hidenData">
+              <div id="cSens">
                 <b id="CRs"></b><br>
                 <b id="CMs"></b><br>
                 <b id="CLs"></b><br>
@@ -134,13 +125,14 @@
        var $Rrange = $("#Rrange");
        rate = $("#rate");
        var Rtrack = function (data) {
-         rate = data.from;
+         Crate = data.from;
+
        };
       $("#Rrange").ionRangeSlider({
           hide_min_max: true,
           keyboard: true,
           min: 1,
-          max: 20,
+          max: 50,
           from: 5,
           grid: true,
           onStart: Rtrack,
