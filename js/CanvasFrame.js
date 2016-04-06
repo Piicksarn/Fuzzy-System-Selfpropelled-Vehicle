@@ -11,6 +11,8 @@ var set = false; // If the mouse click on the canvas, turn to true.
 var draw_x = 0;
 var draw_y = 0;
 var fuzzySys = new FuzzySystem();
+var tmpX = car_x;
+var tmpY = car_y;
 function createLine() {
   for (var i = 0; i < lineList.length; i++) {
     lineList[i] = new Line(i);
@@ -18,7 +20,7 @@ function createLine() {
   }
 }
 function initState(angle) {
-  angle_phi = angle;
+  angle_phi = math.pi / 2 + angle * math.pi / 180;
   clear();
   vehicle.drawCar(ctx);
   maze.drawItem();
@@ -64,6 +66,8 @@ var CFrame = function() {
     if(inBound()) {
       car_x = draw_x - 2*RADIUS - OFFSET;
       car_y = -(draw_y - 500);
+      tmpX = car_x;
+      tmpY = car_y;
       vehicle.drawCar(ctx);
       set = true;
       initState(0);
@@ -100,7 +104,6 @@ function refresh() {
   setTimeout(function() {
   if(start) {
     clear();
-    ctx.save();
     maze.drawItem();
 
     /*NEED THE FUZZY SYSTEM AT HERE*/
@@ -112,26 +115,27 @@ function refresh() {
     //ctx.translate( 60 + RADIUS + OFFSET, 480 + OFFSET);
     coordinate.setTheta(angle_theta);
 
-    angle_phi+=angle_theta;
+  //  angle_phi += angle_theta;
     car_x = coordinate.getX();
     car_y = coordinate.getY();
+    tmpX = car_x;
+    tmpY = car_y;
     coordinate.setNewPhi();
-    console.log("x: "+car_x+" y: "+car_y);
-    // for (var i = 0; i < wallList.length; i++) {
-    //      wallList[i].drawItem(ctx);
-    // }
-    // for (var i = 0; i < footprintList.length; i++) {
-    //   footprintList[i].drawItem(ctx);
-    // }
+  //Need the stop condition
+  if(tmpY >= 480)
+    start = false;
+
+    for (var i = 0; i < footprintList.length; i++) {
+       footprintList[i].drawItem(ctx);
+    }
     for (var i = 0; i < lineList.length; i++) {
        lineList[i].drawLine(i);
     }
     vehicle.drawCar(ctx);
-    ctx.restore();
     footCount++;
   }
   requestAnimationFrame(refresh);
-}, 1000);
+}, 5);
 }
 function clear() {
   this.ctx.fillStyle = 'rgba(255,255,255, 1)';

@@ -5,63 +5,52 @@ var FuzzySystem = function() {
 }
 FuzzySystem.prototype = {
   fuzzifier: function() {
-    //for one sensor
-    // var fuzzifiRes = new Array(3);
-    // for (var l in lineList) {
     for (var i = 0; i < 3; i++) {
       var fuz = new Fuzzifier();
       fuz.setDist(lineList[1].getDist());
       fuz.setRank(i);
       this.sensorFRes[i] = fuz.getRank();
-      //console.log("test: "+this.sensorFRes);
-
     }
-    //   this.sensorFRes.push(fuzzifiRes);
-    // }
-    // console.log("sensors: 0:"+this.sensorFRes[0]+" 1: "+this.sensorFRes[1]+" 2:"+this.sensorFRes[2]);
+    this.angle = 0;
   },
   fuzzRule: function() {
-    var delta = lineList[0].getDist() - lineList[1].getDist();
+    var delta = lineList[0].getDist() - lineList[2].getDist();
     var direct = 0;
     if(math.isNegative(delta))
       direct = -1;
     else
       direct = 1;
 
+    // know the delta between the left sensor and right sensor
     delta = math.abs(delta);
     if(delta < RADIUS)
-      this.angle = 1;
+      this.angle = 10;
     else if (delta < 2 * RADIUS && delta >= RADIUS) {
-      this.angle = 2;
+      this.angle = 30;
     }
-    else if (delta >= 2* RADIUS) {
-      this.angle = 3;
+    else if (delta >= 2* RADIUS && delta< 3 * RADIUS) {
+      this.angle = 40;
+    }
+    else if (delta >= 3* RADIUS) {
+      this.angle = 45;
     }
 
-    // var result = 0;
-    // for (var f in this.sensorFRes) {
-    //   for (var i = 0; i < 3; i++) {
-    //     result = result + (this.sensorFRes[f][i] * ((-5) + 5 * f));
-    //   }
-    //   this.fuzzRuRes.push(result);
-    //   result = 0;
-    // }
-    //console.log("theta:"+delta);
+    // The sensor of middle would effect the angle to turn
+    var midDist = lineList[1].getDist();
+    if(midDist < 2 * RADIUS)
+      this.angle = this.angle * 1.5;
+    else if(midDist >= 2 * RADIUS && midDist < 3 * RADIUS)
+      this.angle = this.angle * 1.2;
+    else if(midDist >= 3 * RADIUS && midDist < 4 * RADIUS)
+      this.angle = this.angle * 0.8;
+    else if(midDist >= 4 * RADIUS)
+      this.angle = this.angle * 0.3;
+
     this.angle = this.angle * direct;
 
   },
   defuzzifier: function() {
-    // var miuyy = 0;
-    // var miuy = 0;
-    // for (var i in this.fuzzRuRes) {
-    //   miuyy = miuyy + this.fuzzRuRes[i];
-    // }
-    // for (var i in this.fuzzRuRes) {
-    //   for (var j in this.fuzzRuRes) {
-    //     miuy = miuy + this.sensorFRes[i][j];
-    //   }
-    // }
-    angle_theta = this.angle * (this.sensorFRes[0]*0.8 + this.sensorFRes[1]*1 + this.sensorFRes[2]*1.2) / (this.sensorFRes[0] + this.sensorFRes[1] + this.sensorFRes[2]);
+    angle_theta =  (this.angle *this.sensorFRes[0] + this.angle *this.sensorFRes[1] + this.angle *this.sensorFRes[2]) / (this.sensorFRes[0] + this.sensorFRes[1] + this.sensorFRes[2]);
     while (this.sensorFRes.length) { this.sensorFRes.pop(); }
   }
 };

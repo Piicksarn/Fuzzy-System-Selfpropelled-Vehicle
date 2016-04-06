@@ -14,9 +14,12 @@ function saveFootprint(pos) {
 }
 FootPrint.prototype = {
   drawItem: function(ctx) {
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(44, 20, 195, 0.7)";
-        ctx.arc(this.x, -this.y, 3, 0, Math.PI*2, true);
-        ctx.stroke();
-      }
-    }
+    var point = paintTran([this.x, this.y]);
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(44, 20, 195, 1)";
+    ctx.arc(point[0], point[1], 5, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fill();
+
+  }
+}

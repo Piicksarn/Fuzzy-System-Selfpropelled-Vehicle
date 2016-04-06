@@ -74,10 +74,10 @@ Line.prototype = {
   },
   distCal: function() {
     // Searching the Surface point
-    var point_x = car_x + RADIUS * math.cos(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
-    var point_y = car_y + RADIUS * math.sin(math.pi / 4 * (this.index + 1) - (angle_phi*math.pi/180));
+    var point_x = tmpX + RADIUS * math.cos(angle_phi - math.pi/4 + ((math.pi/4)*this.index));
+    var point_y = tmpY + RADIUS * math.sin(angle_phi - math.pi/4 + ((math.pi/4)*this.index));
     this.car_surface = [math.round(point_x), math.round(point_y)];
-
+    // console.log("phi: "+angle_phi);
     // Searching the end point
     var interList = new Array();
     for (var i = 0; i < wallList.length; i++) {
@@ -120,35 +120,5 @@ Line.prototype = {
     this.distCal();
     this.drawSurface();
     this.drawEnd();
-    // ctx.beginPath();
-    // ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true);
-    // ctx.fillStyle = "rgba(0, 197, 0, 1)";
-    // ctx.closePath();
-    // ctx.fill();
-    // this.distCal();
-    //
-    // // Draw sensor lines
-    // ctx.beginPath();
-    // ctx.moveTo(car_x, -1 * car_y);
-    // ctx.strokeStyle = "#FFF"
-    // ctx.lineTo(this.end[0] , this.end[1]);
-    // ctx.closePath();
-    // ctx.stroke();
-    //
-    // // Draw surface point
-    // ctx.beginPath();
-    // ctx.arc(this.car_surface[0] , this.car_surface[1], 10, 0, Math.PI*2, true)
-    // ctx.fillStyle = "rgba(93, 194, 219, 1)";
-    // ctx.closePath();
-    // ctx.fill();
-    //
-    // // Draw end points
-    // ctx.beginPath();
-    // ctx.arc(this.end[0] , this.end[1], 10, 0, Math.PI*2, true);
-    // ctx.fillStyle = "rgba(219, 118, 93, 1)";
-    // ctx.closePath();
-    // ctx.fill();
-
-
   }
 }

@@ -54,16 +54,17 @@ Vehicle.prototype = {
   },
   drawCar: function(ctx) {
 
-    if(start) {
-      this.transform();
-      // Save the footprint in the list when draw the car
-      if(footCount % 10 == 0) {
-        var foot = new FootPrint(car_x, car_y);
-        footprintList.push(foot);
-      }
+    // if(start) {
+    //   this.transform();
+    //   // Save the footprint in the list when draw the car
+    //
+    // }
+    if(footCount % 20 == 0) {
+      var foot = new FootPrint(tmpX, tmpY);
+      footprintList.push(foot);
     }
     // Draw the car
-    var point = paintTran([car_x, car_y]);
+    var point = paintTran([tmpX, tmpY]);
     ctx.beginPath();
     ctx.fillStyle = "rgba(20, 20, 20, 0.7)";
     ctx.arc(point[0], point[1], RADIUS, 0, Math.PI*2, true);
