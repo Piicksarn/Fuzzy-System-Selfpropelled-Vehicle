@@ -1,7 +1,11 @@
+.inite {
+  font-size: 11px;
+  margin-bottom: 3px;
+}
 .dataPad li{
   list-style-type: none;
   color: #fff;
-  background-color: #345679;
+  background-color: #5DDBB5;
   padding: 5px;
   height: 30px;
   font-size: 18px;
@@ -58,11 +62,11 @@
 }
 .showData {
   float:left;
-  background-color: #5DC2DB;
+  background-color: #5DDBB5;
   width: 20%;
   height: 80%;
   margin: 10px;
-  border: solid 5px #5DDBB5;
+  border: solid 5px #fff;
   text-align: center;
 }
 

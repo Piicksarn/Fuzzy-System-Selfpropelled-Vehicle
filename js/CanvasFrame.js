@@ -13,6 +13,7 @@ var draw_y = 0;
 var fuzzySys = new FuzzySystem();
 var tmpX = car_x;
 var tmpY = car_y;
+
 function createLine() {
   for (var i = 0; i < lineList.length; i++) {
     lineList[i] = new Line(i);
@@ -22,13 +23,17 @@ function createLine() {
 function initState(angle) {
   angle_phi = math.pi / 2 + angle * math.pi / 180;
   clear();
-  vehicle.drawCar(ctx);
   maze.drawItem();
+  vehicle.drawCar(ctx);
   for (var i = 0; i < lineList.length; i++) {
     lineList[i].distCal();
     lineList[i].drawSurface();
     lineList[i].drawEnd();
   }
+  $('#Ipos').text("[x,y] = ["+math.round(tmpX/OFFSET ,1)+" , "+ math.round(tmpY/OFFSET,1)+"] ");
+  $('#Rs').text("Right-Sensor: "+math.round(lineList[0].getDist() / OFFSET,2));
+  $('#Ms').text("Mid-Sensor: "+math.round(lineList[1].getDist() / OFFSET,2));
+  $('#Ls').text("Left-Sensor: "+math.round(lineList[2].getDist() / OFFSET,2));
 }
 function paintTran(oPoint) {
   var point = math.zeros(2);
@@ -115,8 +120,9 @@ function refresh() {
     tmpY = car_y;
     coordinate.setNewPhi();
 
-    if(tmpY >= 480)
+    if(tmpY >= 480) {
       start = false;
+    }
 
     for (var i = 0; i < wallList.length; i++) {
          wallList[i].drawItem(ctx);
@@ -133,6 +139,11 @@ function refresh() {
        lineList[i].drawSurface();
     }
     footCount++;
+    $('#CPos').text("[x,y] = ["+math.round(tmpX/OFFSET ,1)+" , "+ math.round(tmpY/OFFSET,1)+"] ");
+    $('#CAng').text("Turn Angle: "+math.round(angle_theta));
+    $('#CRs').text("Right-Sensor: "+math.round(lineList[0].getDist() / OFFSET,2));
+    $('#CMs').text("Mid-Sensor: "+math.round(lineList[1].getDist() / OFFSET,2));
+    $('#CLs').text("Left-Sensor: "+math.round(lineList[2].getDist() / OFFSET,2));
   }
   requestAnimationFrame(refresh);
 }, 5);

@@ -85,7 +85,6 @@ Line.prototype = {
     var point_x = tmpX + RADIUS * math.cos(angle_phi - math.pi/4 + ((math.pi/4)*this.index));
     var point_y = tmpY + RADIUS * math.sin(angle_phi - math.pi/4 + ((math.pi/4)*this.index));
     this.car_surface = [math.round(point_x), math.round(point_y)];
-    // console.log("phi: "+angle_phi);
     // Searching the end point
     var interList = new Array();
     for (var i = 0; i < wallList.length; i++) {
@@ -93,7 +92,6 @@ Line.prototype = {
        if(intPoint!=null)
           interList.push(intPoint);
      }
-
     // Searching the minimal distance intersect point
     var min = 700;
     for (var i = 0; i < interList.length; i++) {

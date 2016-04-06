@@ -42,6 +42,15 @@
           <input type="text" id="Rrange" value="" name="Rrange" />
           <br/>
           <input type="button" id="startBtn" value="Start" class="startBtn"/>
+          </br>
+          <b style="font-size: 18px;">Dist of Sensors</b><br>
+          <div class = "inite">
+            <b id="Rs"></b><br>
+            <b id="Ms"></b><br>
+            <b id="Ls"></b><br>
+          </div>
+      </li>
+      <ul>
       </ul>
     </div>
     <!-- The Main Part-->
@@ -66,22 +75,23 @@
           <div class="dataPad">
               <li><a><i class="fa fa-car"></i> Vehicle Position</li>
               <div class="hidenData"><b id="Ipos"></b></div>
-              <li><a><i class="fa fa-undo"></i></i> Initial Angel</li>
+              <li><a><i class="fa fa-undo"></i></i> Initial Angle</li>
               <div class="hidenData" id="IAng"><b id="angle"></b></div>
-              <li><a><i class="fa fa-bullseye"></i> Initial Sensors</li>
-              <div class="hidenData" id="ISens"></div>
-
           </div>
           <div>
             <h2 style="margin-left: 10px;">Result</h2>
           </div>
           <div class="dataPad">
               <li><a><i class="fa fa-car"></i> Vehicle Position</li>
-              <div class="hidenData"><b id="Ipos"></b></div>
-              <li><a><i class="fa fa-undo"></i></i> Initial Angel</li>
-              <div class="hidenData" id="IAng"><b id="angle"></b></div>
-              <li><a><i class="fa fa-bullseye"></i> Initial Sensors</li>
-              <div class="hidenData" id="ISens"></div>
+              <div class="hidenData"><b id="CPos"></b></div>
+              <li><a><i class="fa fa-undo"></i></i> Turn Angle</li>
+              <div class="hidenData"><b id="CAng"></b></div>
+              <li><a><i class="fa fa-bullseye"></i> Dist of Sensors</li>
+              <div id="cSens"class="hidenData">
+                <b id="CRs"></b><br>
+                <b id="CMs"></b><br>
+                <b id="CLs"></b><br>
+              </div>
 
           </div>
         </div>
@@ -120,9 +130,6 @@
         onUpdate: track
       });
 
-     var doSetting = function() {
-       //$('#Ipos').text("[x,y] = ["+$('#xPos').val()+" , "+ $('#yPos').val()+"] ");//= ;
-     };
      $(function () {
        var $Rrange = $("#Rrange");
        rate = $("#rate");
@@ -154,7 +161,6 @@
         $("#toggle").toggleClass("closed");
         $(".content").toggleClass("closed");
         $("#wrapper").toggleClass("closed");
-        doSetting();
         canvasF.setStart();
       });
     </script>
