@@ -1,4 +1,6 @@
 
+## Using browser to open the index.html 
+
 ## :smiley: Initial Setting
 ### Position
 
