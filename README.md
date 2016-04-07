@@ -1,18 +1,18 @@
 
 ## :smiley: Initial Setting
-### :round_pushpin: Position
+### Position
 
-  - Use mouse to set the start position.
+  - Use mouse to set the start position. :round_pushpin: 
   
   :warning: **Should set the position on the yellow yeild.**
 
-### :monkey: Angle and Rate
+###Angle and Rate
 
   - The menu on the left side could set the initial angle and the moving rate of the vehicle.
    
-### :blue_car: Result
+###Result
 
-  - The panel on the right side of the webpage would show the self-propelled result.
+  - The panel on the right side of the webpage would show the self-propelled result. :blue_car:  :blue_car:  :blue_car: 
   
 
 
