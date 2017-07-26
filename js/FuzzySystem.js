@@ -58,7 +58,10 @@ FuzzySystem.prototype = {
 
   },
   defuzzifier: function() {
-    angle_theta =  (this.angle *this.sensorFRes[0] + this.angle *this.sensorFRes[1] + this.angle *this.sensorFRes[2]) / (this.sensorFRes[0] + this.sensorFRes[1] + this.sensorFRes[2]);
+    angle_theta =  (this.angle *this.sensorFRes[0] +
+                    this.angle *this.sensorFRes[1] +
+                    this.angle *this.sensorFRes[2]) /
+                    (this.sensorFRes[0] + this.sensorFRes[1] + this.sensorFRes[2]);
     while (this.sensorFRes.length) {
       this.sensorFRes.pop();
     }

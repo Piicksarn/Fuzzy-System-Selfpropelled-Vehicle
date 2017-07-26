@@ -19,7 +19,8 @@ Coordinate.prototype ={
     this.theta = angle;
   },
   setNewPhi: function() {
-    angle_phi = angle_phi - math.asin(2 * math.sin(this.theta * math.pi / 180) / RADIUS)
+    angle_phi = angle_phi - math.asin(2 * math.sin(this.theta * math.pi / 180) / RADIUS);
+    console.log("angle_phi" + angle_phi);
     return angle_phi;
   }
 }
